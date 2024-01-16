@@ -14,10 +14,10 @@ if (projet === null) {
   projet = JSON.parse(projet);
 }
 
-function generer_projet(projet) {
+function GenererProjet(projet) {
   for (let i = 0; i < projet.length; i++) {
     // Récupération de l'élément du DOM qui accueillera les projet
-    const section_galery = document.querySelector(".gallery");
+    const SectionGalery = document.querySelector(".gallery");
     // Création d’une balise dédiée a chaque projet
     const container = document.createElement("figure");
     container.dataset.id = projet[i].id;
@@ -33,10 +33,12 @@ function generer_projet(projet) {
     // Ajout de la balise figcaption dans la balise figure
     container.appendChild(figcaption);
     // Ajout de la balise figure dans la section
-    section_galery.appendChild(container);
+    SectionGalery.appendChild(container);
   }
 }
-generer_projet(projet);
+GenererProjet(projet);
+
+
 
 // Création de la balise filtre
 const filtre = document.createElement("div");
@@ -50,10 +52,13 @@ filtre.appendChild(button);
 
 // génération des filtres
 let categories = window.localStorage.getItem("categories");
+
 if (categories === null) {
   //   Récupération des categories depuis l'API
   const reponses = await fetch("http://localhost:5678/api/categories");
-  const categories = await reponses.json();
+  categories = await reponses.json();
+  console.log("dans if avant transformation string")  
+  console.log(categories);
   // Transformation des categories en JSON
   const categoriesjson = JSON.stringify(categories);
   //   Stockage des informations dans le localStorage
@@ -62,7 +67,7 @@ if (categories === null) {
   categories = JSON.parse(categories);
 }
 
-function generer_categories(categories) {
+function GenererCategories(categories) {
   for (let i = 0; i < categories.length; i++) {
     const button = document.createElement("button");
     button.textContent = categories[i].name;
@@ -70,46 +75,49 @@ function generer_categories(categories) {
     filtre.appendChild(button);
   }
 }
-generer_categories(categories);
+
+GenererCategories(categories);
 
 // Ajout des filtres dans le portfolio
 const portfolio = document.querySelector("#portfolio");
-const section_galery = document.querySelector(".gallery");
-portfolio.insertBefore(filtre, section_galery);
+const SectionGalery = document.querySelector(".gallery");
+portfolio.insertBefore(filtre, SectionGalery);
 
 // trie des projet par filtre
 filtre.addEventListener("click", (event) => {
   if (event.target.tagName === "BUTTON") {
-    const ancien_active = document.querySelector(".active");
-    if (ancien_active) ancien_active.classList.remove("active");
+    const AncienActive = document.querySelector(".active");
+    if (AncienActive) AncienActive.classList.remove("active");
     event.target.classList.add("active");
 
     const id = event.target.dataset.id;
     console.log(id);
     switch (id) {
       case "0":
-        section_galery.innerHTML = "";
-        generer_projet(projet);
+        SectionGalery.innerHTML = "";
+        GenererProjet(projet);
         break;
       case "1":
-        section_galery.innerHTML = "";
+        SectionGalery.innerHTML = "";
         const projet1 = projet.filter((projet) => projet.categoryId === 1);
-        generer_projet(projet1);
+        GenererProjet(projet1);
         break;
       case "2":
-        section_galery.innerHTML = "";
+        SectionGalery.innerHTML = "";
         const projet2 = projet.filter((projet) => projet.categoryId === 2);
-        generer_projet(projet2);
+        GenererProjet(projet2);
         break;
       case "3":
-        section_galery.innerHTML = "";
+        SectionGalery.innerHTML = "";
         const projet3 = projet.filter((projet) => projet.categoryId === 3);
         console.log(projet3);
-        generer_projet(projet3);
+        GenererProjet(projet3);
         break;
     }
   }
 });
+
+
 
 // bouton login
 const login = document.querySelector("#login");
