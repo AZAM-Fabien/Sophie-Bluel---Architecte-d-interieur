@@ -62,7 +62,6 @@ if (categories === null) {
   categories = JSON.parse(categories);
 }
 
-
 function generer_categories(categories) {
   for (let i = 0; i < categories.length; i++) {
     const button = document.createElement("button");
@@ -110,4 +109,12 @@ filtre.addEventListener("click", (event) => {
         break;
     }
   }
+});
+
+// bouton login
+const login = document.querySelector("#login");
+
+login.addEventListener("click", () => {
+  console.log("login");
+  window.location.href = "login/login.html";
 });
