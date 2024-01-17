@@ -38,8 +38,6 @@ function GenererProjet(projet) {
 }
 GenererProjet(projet);
 
-
-
 // Création de la balise filtre
 const filtre = document.createElement("div");
 filtre.classList.add("filtre");
@@ -57,7 +55,7 @@ if (categories === null) {
   //   Récupération des categories depuis l'API
   const reponses = await fetch("http://localhost:5678/api/categories");
   categories = await reponses.json();
-  console.log("dans if avant transformation string")  
+  console.log("dans if avant transformation string");
   console.log(categories);
   // Transformation des categories en JSON
   const categoriesjson = JSON.stringify(categories);
@@ -117,8 +115,6 @@ filtre.addEventListener("click", (event) => {
   }
 });
 
-
-
 // bouton login
 const login = document.querySelector("#login");
 
@@ -126,3 +122,21 @@ login.addEventListener("click", () => {
   console.log("login");
   window.location.href = "login/login.html";
 });
+
+// vérification du login
+const token = window.localStorage.getItem("token");
+const first36Characters = token.substring(0, 36);
+console.log(first36Characters);
+if (first36Characters === "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9") {
+  filtre.innerHTML = "";
+  const portfolio = document.querySelector("#portfolio");
+  const modifier = document.createElement("div");
+  modifier.classList.add("modifier");
+  const modifier__text = document.createElement("p");
+  const modifier__icon = document.createElement("img");
+  modifier__icon.src = "assets/icons/modifier.png";
+  modifier__text.innerText = "Modifier";
+  modifier.appendChild(modifier__icon);
+  modifier.appendChild(modifier__text);
+  portfolio.insertBefore(modifier, filtre);
+}
