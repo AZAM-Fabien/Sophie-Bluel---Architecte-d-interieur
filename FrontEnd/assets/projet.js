@@ -14,7 +14,7 @@ if (projet === null) {
   projet = JSON.parse(projet);
 }
 
-export function GenererProjet(projet, location) {
+function GenererProjet(projet, location) {
   for (let i = 0; i < projet.length; i++) {
     // Récupération de l'élément du DOM qui accueillera les projet
     const SectionGalery = document.querySelector(location);
@@ -41,8 +41,6 @@ GenererProjet(projet, ".galerie");
 // Affichage des projet dans la modal
 GenererProjet(projet, "#contenue");
 
-
-
 // Création de la balise filtre
 const filtre = document.createElement("div");
 filtre.classList.add("filtre");
@@ -60,8 +58,6 @@ if (categories === null) {
   //   Récupération des categories depuis l'API
   const reponses = await fetch("http://localhost:5678/api/categories");
   categories = await reponses.json();
-  console.log("dans if avant transformation string");
-  console.log(categories);
   // Transformation des categories en JSON
   const categoriesjson = JSON.stringify(categories);
   //   Stockage des informations dans le localStorage
@@ -94,7 +90,6 @@ filtre.addEventListener("click", (event) => {
     event.target.classList.add("active");
 
     const id = event.target.dataset.id;
-    console.log(id);
     switch (id) {
       case "0":
         SectionGalery.innerHTML = "";
@@ -113,7 +108,6 @@ filtre.addEventListener("click", (event) => {
       case "3":
         SectionGalery.innerHTML = "";
         const projet3 = projet.filter((projet) => projet.categoryId === 3);
-        console.log(projet3);
         GenererProjet(projet3);
         break;
     }
@@ -124,26 +118,26 @@ filtre.addEventListener("click", (event) => {
 const login = document.querySelector("#login");
 
 login.addEventListener("click", () => {
-  console.log("login");
   window.location.href = "login/login.html";
 });
 
 // vérification du login
 const token = window.localStorage.getItem("token");
-const first36Characters = token.substring(0, 36);
-console.log(first36Characters);
-if (first36Characters === "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9") {
-  filtre.innerHTML = "";
+if (token) {
+  const first36Characters = token.substring(0, 36);
+  if (first36Characters === "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9") {
+    filtre.innerHTML = "";
 
-  const portfolio = document.querySelector("#portfolio");
-  const modifier = document.createElement("div");
-  modifier.classList.add("modifier");
-  modifier.href = "#menu-projet";
-  const modifier__text = document.createElement("p");
-  const modifier__icon = document.createElement("img");
-  modifier__icon.src = "assets/icons/modifier.png";
-  modifier__text.innerText = "Modifier";
-  modifier.appendChild(modifier__icon);
-  modifier.appendChild(modifier__text);
-  portfolio.insertBefore(modifier, filtre);
+    const portfolio = document.querySelector("#portfolio");
+    const modifier = document.createElement("div");
+    modifier.classList.add("modifier");
+    modifier.href = "#menu-projet";
+    const modifier__text = document.createElement("p");
+    const modifier__icon = document.createElement("img");
+    modifier__icon.src = "assets/icons/modifier.png";
+    modifier__text.innerText = "Modifier";
+    modifier.appendChild(modifier__icon);
+    modifier.appendChild(modifier__text);
+    portfolio.insertBefore(modifier, filtre);
+  }
 }
