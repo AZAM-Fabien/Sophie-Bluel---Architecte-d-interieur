@@ -13,6 +13,7 @@
     <meta name="description" content="" />
     <link rel="stylesheet" href="./assets/style.css" />
     <script type="module" src="./assets/projet.js"></script>
+    <script type="module" src="./assets/modal.js" defer> </script>
   </head>
   <body>
     <header>
@@ -26,6 +27,20 @@
         </ul>
       </nav>
     </header>
+
+    <!-- modal -->
+    <aside id="menu-projets" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display:none;">
+      <div class ="modal-content modal-stop">
+        <bouton id="close-modal">X</bouton>
+        <h2 id="titlemodal">Galerie photo</h2> 
+        <div id="contenue">
+        </div>
+        <div id="bouton">
+        <bouton class="ajout-photo">Ajouter une photo</bouton>
+        </div>
+      </div>
+    </aside>
+
     <main>
       <section id="introduction">
         <figure>
@@ -52,7 +67,7 @@
       </section>
       <section id="portfolio">
         <h2>Mes Projets</h2>
-        <div class="gallery">
+        <div class="galerie">
           <!-- travaux récupéres depuis l'API -->
         </div>
       </section>

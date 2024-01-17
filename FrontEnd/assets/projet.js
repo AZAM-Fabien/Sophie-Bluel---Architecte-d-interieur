@@ -14,10 +14,10 @@ if (projet === null) {
   projet = JSON.parse(projet);
 }
 
-function GenererProjet(projet) {
+export function GenererProjet(projet, location) {
   for (let i = 0; i < projet.length; i++) {
     // Récupération de l'élément du DOM qui accueillera les projet
-    const SectionGalery = document.querySelector(".gallery");
+    const SectionGalery = document.querySelector(location);
     // Création d’une balise dédiée a chaque projet
     const container = document.createElement("figure");
     container.dataset.id = projet[i].id;
@@ -36,7 +36,12 @@ function GenererProjet(projet) {
     SectionGalery.appendChild(container);
   }
 }
-GenererProjet(projet);
+GenererProjet(projet, ".galerie");
+
+// Affichage des projet dans la modal
+GenererProjet(projet, "#contenue");
+
+
 
 // Création de la balise filtre
 const filtre = document.createElement("div");
@@ -78,7 +83,7 @@ GenererCategories(categories);
 
 // Ajout des filtres dans le portfolio
 const portfolio = document.querySelector("#portfolio");
-const SectionGalery = document.querySelector(".gallery");
+const SectionGalery = document.querySelector(".galerie");
 portfolio.insertBefore(filtre, SectionGalery);
 
 // trie des projet par filtre
@@ -129,9 +134,11 @@ const first36Characters = token.substring(0, 36);
 console.log(first36Characters);
 if (first36Characters === "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9") {
   filtre.innerHTML = "";
+
   const portfolio = document.querySelector("#portfolio");
   const modifier = document.createElement("div");
   modifier.classList.add("modifier");
+  modifier.href = "#menu-projet";
   const modifier__text = document.createElement("p");
   const modifier__icon = document.createElement("img");
   modifier__icon.src = "assets/icons/modifier.png";
