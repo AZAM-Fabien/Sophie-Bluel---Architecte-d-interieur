@@ -1,20 +1,26 @@
 // récupération des différents projet
 //Récupération des projet stockées dans le localStorage
-let projet = window.localStorage.getItem("projet");
 
-if (projet === null) {
-  // Récupération des projet depuis l'API
-  const reponse = await fetch("http://localhost:5678/api/works");
-  projet = await reponse.json();
-  // Transformation des projet en JSON
-  const projetjson = JSON.stringify(projet);
-  // Stockage des informations dans le localStorage
-  window.localStorage.setItem("projet", projetjson);
-} else {
-  projet = JSON.parse(projet);
+export async function RecupProjet() {
+  let projet = window.localStorage.getItem("projet");
+  if (projet === null) {
+    // Récupération des projet depuis l'API
+    const reponse = await fetch("http://localhost:5678/api/works");
+    projet = await reponse.json();
+    // Transformation des projet en JSON
+    const projetjson = JSON.stringify(projet);
+    // Stockage des informations dans le localStorage
+    window.localStorage.setItem("projet", projetjson);
+  } else {
+    projet = JSON.parse(projet);
+  }
+  return projet;
 }
 
-function GenererProjet(projet, location) {
+const projet = await RecupProjet();
+console.log(projet);
+
+export function GenererProjet(projet, location) {
   for (let i = 0; i < projet.length; i++) {
     // Récupération de l'élément du DOM qui accueillera les projet
     const SectionGalery = document.querySelector(location);
@@ -93,22 +99,22 @@ filtre.addEventListener("click", (event) => {
     switch (id) {
       case "0":
         SectionGalery.innerHTML = "";
-        GenererProjet(projet);
+        GenererProjet(projet, ".galerie");
         break;
       case "1":
         SectionGalery.innerHTML = "";
         const projet1 = projet.filter((projet) => projet.categoryId === 1);
-        GenererProjet(projet1);
+        GenererProjet(projet1, ".galerie");
         break;
       case "2":
         SectionGalery.innerHTML = "";
         const projet2 = projet.filter((projet) => projet.categoryId === 2);
-        GenererProjet(projet2);
+        GenererProjet(projet2, ".galerie");
         break;
       case "3":
         SectionGalery.innerHTML = "";
         const projet3 = projet.filter((projet) => projet.categoryId === 3);
-        GenererProjet(projet3);
+        GenererProjet(projet3, ".galerie");
         break;
     }
   }

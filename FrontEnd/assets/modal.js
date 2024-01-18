@@ -35,8 +35,9 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
-// ajout icon poubelle
+
 // suppression des figcaption dans la modal
+function styleimg() {
 const figcaptions = document.querySelectorAll(".modal figcaption");
 figcaptions.forEach((figcaption) => {
   figcaption.remove();
@@ -48,32 +49,46 @@ figure.forEach((figure) => {
   carré.classList.add("carré");
   carré.dataset.id = figure.getAttribute("data-id");
   const poubelle = document.createElement("img");
+  poubelle.dataset.id = figure.getAttribute("data-id");
   poubelle.src = "assets/icons/trash-can-solid.png";
   poubelle.classList.add("poubelle");
   carré.appendChild(poubelle);
   figure.appendChild(carré);
 });
+}
+styleimg();
+
+import { GenererProjet, RecupProjet } from "./projet.js";
 
 const carré = document.querySelectorAll(".carré");
-carré.forEach((carré) => {
-  carré.addEventListener("click", async (e) => {
+
+document.querySelector("#contenue").addEventListener("click", async (e) => {
+  if (e.target.classList.contains("carré") || e.target.classList.contains("poubelle") || e.target.closest(".poubelle")) {
+    console.log('click')
     e.preventDefault();
-    const id = carré.dataset.id;
+    const id = e.target.dataset.id;
     const token = window.localStorage.getItem("token");
-    console.log(token);
-    console.log(id);
-    const reponse = await fetch(`http://localhost:5678/api/works/${id}`, {
-      method: "DELETE",
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      credentials: "omit",
-    });
-    if (reponse.ok) {
-      console.log("suppression");
+    try {
+      const reponse = await fetch(`http://localhost:5678/api/works/${id}`, {
+        method: "DELETE",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (reponse.ok) {
+        const suppression = reponse.ok;
+        window.localStorage.setItem("suppression", JSON.stringify(suppression));
+        window.localStorage.removeItem("projet");
+        const projet = await RecupProjet();
+        document.querySelector(".galerie").innerHTML = "";
+        document.querySelector("#contenue").innerHTML = "";
+        GenererProjet(projet, ".galerie");
+        GenererProjet(projet, "#contenue");
+        styleimg();
+      }
+    } catch (error) {
+      console.error(error);
     }
-    console.log(reponse);
-    console.log(`Authorization: Bearer ${token}`);
-  });
+  }
 });
