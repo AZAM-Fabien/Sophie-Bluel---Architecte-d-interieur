@@ -22,11 +22,14 @@ formulaireAvis.addEventListener("submit", async function (event) {
   if (reponse.ok) {
     const data = await reponse.json();
     console.log(data);
-    window.localStorage.setItem("token", data.token);
+    window.sessionStorage.setItem("token", data.token);
     window.location.href = "../index.html";
-  } else if (codeErreur === 404) {
-    alert("email incorect ou inexistant");
-  } else if (codeErreur === 401) {
-    alert("mot de passe incorect");
+  } else {
+    const erreur = document.createElement("p");
+    erreur.innerText = "Utilisateur introuvable: Email ou mot de passe incorrect";
+    const envoie = document.querySelector("input[type=submit]");
+    console.log(envoie);
+    formulaireAvis.insertBefore(erreur, envoie);
   }
+
 });

@@ -1,23 +1,25 @@
-// récupération des différents projet
-//Récupération des projet stockées dans le localStorage
+// récupération des différents projetrecupererProjet
+//Récupération des projet stockées dans le sessionStorage
 
-export async function RecupProjet() {
-  let projet = window.localStorage.getItem("projet");
-  if (projet === null) {
+export async function recupererProjet() {
+  let projet;
+  try{
     // Récupération des projet depuis l'API
     const reponse = await fetch("http://localhost:5678/api/works");
     projet = await reponse.json();
+    console.log(projet);
     // Transformation des projet en JSON
     const projetjson = JSON.stringify(projet);
-    // Stockage des informations dans le localStorage
-    window.localStorage.setItem("projet", projetjson);
-  } else {
-    projet = JSON.parse(projet);
+    // Stockage des informations dans le sessionStorage
+    window.sessionStorage.setItem("projet", projetjson);
+  } catch {
+    projet = JSON.parse(window.sessionStorage.getItem("projet"));
   }
+
   return projet;
 }
 
-const projet = await RecupProjet();
+const projet = await recupererProjet();
 console.log(projet);
 
 export function GenererProjet(projet, location) {
@@ -58,20 +60,26 @@ button.dataset.id = 0;
 filtre.appendChild(button);
 
 // génération des filtres
-let categories = window.localStorage.getItem("categories");
-
-if (categories === null) {
+// Récuparation des categories depuis l'api ou stockées dans le sessionStorage
+export async function recupererCategories() {
+  let categories;
+try{
   //   Récupération des categories depuis l'API
   const reponses = await fetch("http://localhost:5678/api/categories");
   categories = await reponses.json();
   // Transformation des categories en JSON
   const categoriesjson = JSON.stringify(categories);
-  //   Stockage des informations dans le localStorage
-  window.localStorage.setItem("categories", categoriesjson);
-} else {
-  categories = JSON.parse(categories);
+  //   Stockage des informations dans le sessionStorage
+  window.sessionStorage.setItem("categories", categoriesjson);
+} catch {
+  categories = JSON.parse(window.sessionStorage.getItem("categories"));
+}
+return categories;
 }
 
+const categories = await recupererCategories();
+
+// Affichage des filtres
 function GenererCategories(categories) {
   for (let i = 0; i < categories.length; i++) {
     const button = document.createElement("button");
@@ -120,6 +128,18 @@ filtre.addEventListener("click", (event) => {
   }
 });
 
+//bouton projet
+const boutonProjet = document.querySelector("nav ul li:nth-child(1)");
+boutonProjet.addEventListener("click", () => {
+  window.location.href = "#portfolio";
+});
+
+//bouton contact
+const boutonContact = document.querySelector("nav ul li:nth-child(2)");
+boutonContact.addEventListener("click", () => {
+  window.location.href = "#contact";
+});
+
 // bouton login
 const login = document.querySelector("#login");
 
@@ -128,10 +148,11 @@ login.addEventListener("click", () => {
 });
 
 // vérification du login
-const token = window.localStorage.getItem("token");
+const token = window.sessionStorage.getItem("token");
 if (token) {
   const first36Characters = token.substring(0, 36);
   if (first36Characters === "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9") {
+    // ajout modifier suppression filtre
     filtre.innerHTML = "";
 
     const portfolio = document.querySelector("#portfolio");
@@ -145,5 +166,19 @@ if (token) {
     modifier.appendChild(modifier__icon);
     modifier.appendChild(modifier__text);
     portfolio.insertBefore(modifier, filtre);
+
+    // afficher bandeau noir pour dire que l'utilisateur est connecté
+    const bandeau = document.createElement("div");
+    bandeau.classList.add("bandeau");
+    const modeEdition__text = document.createElement("p");
+    modeEdition__text.innerText = "Mode Edition";
+    const modeEdition__icon = document.createElement("img");
+    modeEdition__icon.src = "assets/icons/modifier--blanc.png";
+    bandeau.appendChild(modeEdition__icon);
+    bandeau.appendChild(modeEdition__text);
+
+    const header = document.querySelector("header");
+    const body = document.querySelector("body");
+    body.insertBefore(bandeau, header);
   }
 }

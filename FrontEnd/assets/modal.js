@@ -35,39 +35,35 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
-
 // suppression des figcaption dans la modal
 function styleimg() {
-const figcaptions = document.querySelectorAll(".modal figcaption");
-figcaptions.forEach((figcaption) => {
-  figcaption.remove();
-});
-// ajout icon poubelle sur chaque image dans la modal
-const figure = document.querySelectorAll(".modal figure");
-figure.forEach((figure) => {
-  const carré = document.createElement("div");
-  carré.classList.add("carré");
-  carré.dataset.id = figure.getAttribute("data-id");
-  const poubelle = document.createElement("img");
-  poubelle.dataset.id = figure.getAttribute("data-id");
-  poubelle.src = "assets/icons/trash-can-solid.png";
-  poubelle.classList.add("poubelle");
-  carré.appendChild(poubelle);
-  figure.appendChild(carré);
-});
+  const figcaptions = document.querySelectorAll(".modal figcaption");
+  figcaptions.forEach((figcaption) => {
+    figcaption.remove();
+  });
+  // ajout icon poubelle sur chaque image dans la modal
+  const figure = document.querySelectorAll(".modal figure");
+  figure.forEach((figure) => {
+    const poubelle = document.createElement("img");
+    poubelle.dataset.id = figure.getAttribute("data-id");
+    poubelle.src = "assets/icons/trash-can-solid.png";
+    poubelle.classList.add("poubelle");
+    figure.appendChild(poubelle);
+  });
 }
 styleimg();
 
-import { GenererProjet, RecupProjet } from "./projet.js";
+import { GenererProjet, recupererProjet } from "./projet.js";
 
-const carré = document.querySelectorAll(".carré");
+const poubelle = document.querySelectorAll(".poubelle");
+console.log(poubelle);
 
 document.querySelector("#contenue").addEventListener("click", async (e) => {
-  if (e.target.classList.contains("carré") || e.target.classList.contains("poubelle") || e.target.closest(".poubelle")) {
-    console.log('click')
+  if (e.target.classList.contains("poubelle")) {
+    console.log("click");
     e.preventDefault();
     const id = e.target.dataset.id;
-    const token = window.localStorage.getItem("token");
+    const token = window.sessionStorage.getItem("token");
     try {
       const reponse = await fetch(`http://localhost:5678/api/works/${id}`, {
         method: "DELETE",
@@ -78,9 +74,12 @@ document.querySelector("#contenue").addEventListener("click", async (e) => {
       });
       if (reponse.ok) {
         const suppression = reponse.ok;
-        window.localStorage.setItem("suppression", JSON.stringify(suppression));
-        window.localStorage.removeItem("projet");
-        const projet = await RecupProjet();
+        window.sessionStorage.setItem(
+          "suppression",
+          JSON.stringify(suppression)
+        );
+        window.sessionStorage.removeItem("projet");
+        const projet = await recupererProjet();
         document.querySelector(".galerie").innerHTML = "";
         document.querySelector("#contenue").innerHTML = "";
         GenererProjet(projet, ".galerie");

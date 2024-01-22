@@ -135,6 +135,21 @@ body {
   font-family: "Work Sans";
   font-size: 14px;
 }
+
+.bandeau {
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  height: 60px;
+}
+
+.bandeau img {
+  margin-right: 10px;
+  color: #fff;
+}
+
 header {
   display: flex;
   justify-content: space-between;
@@ -446,29 +461,23 @@ figure {
   position: relative;
 }
 
-#contenue figure > img {
+#contenue figure > img:nth-child(1) {
   width: 78.123px;
   height: 104.08px;
   flex-shrink: 0;
   object-fit: cover;
 }
 
-.carré {
+
+.poubelle {
   position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   top: 5px;
   right: 5px;
-  width: 17px;
-  height: 17px;
-  background: black;
-  border-radius: 2px;
-}
-.poubelle {
+  background: #000;
+  padding : 3px 4px;
   width: 9px;
   height: 11px;
-  flex-shrink: 0;
+  border-radius: 4px;
 }
 .ajout-photo {
   position: absolute;
