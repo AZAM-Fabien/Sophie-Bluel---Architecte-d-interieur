@@ -306,7 +306,7 @@ li:hover {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"] {
+#contact input[type="submit"] {
   font-family: "Syne";
   font-weight: 700;
   color: white;
@@ -362,13 +362,15 @@ footer nav ul {
 
 #main__login input[type="submit"] {
   color: #fff;
-  font-family: Syne;
+  font-family: "Syne";
   font-size: 14px;
   font-weight: 700;
-  width: 179px;
+  text-align: center;
+  margin: 2em auto;
+  width: 180px;
   height: 36px;
-  flex-shrink: 0;
   border-radius: 60px;
+  background-color: #1d6154;
 }
 
 #main__login label {
@@ -414,9 +416,16 @@ footer nav ul {
   background-color: rgba(0, 0, 0, 0.6);
 }
 
-.modal-content {
-  position: relative;
+.modal-content--1 {
   display: flex;
+}
+.modal-content--2 {
+  display: none;
+}
+
+.modal-content--1,
+.modal-content--2 {
+  position: relative;
   flex-direction: column;
   align-items: center;
   background-color: #fff;
@@ -436,7 +445,16 @@ footer nav ul {
   cursor: pointer;
 }
 
-.modal-content h2 {
+#rollback {
+  position: absolute;
+  top: 6px;
+  left: 10px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.modal-content--1 h2,
+.modal-content--2 h2 {
   margin-bottom: 20px;
   padding-top: 20px;
   color: #000;
@@ -446,40 +464,44 @@ footer nav ul {
   font-weight: 400;
 }
 
-#contenue {
-  padding: 20px 0 80px 0;
+.contenue {
+  padding: 30px 0 80px 0;
   display: flex;
+  align-items: flex-start;
   flex-wrap: wrap;
   gap: 11px;
   height: 78%;
-  width: 82%;
+  width: 420px;
   border-bottom: 1px solid #b3b3b3;
   box-sizing: border-box;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 figure {
   position: relative;
 }
 
-#contenue figure > img:nth-child(1) {
-  width: 78.123px;
-  height: 104.08px;
+#photo-modal figure > img:nth-child(1) {
+  width: 75px;
+  height: 104px;
   flex-shrink: 0;
   object-fit: cover;
 }
-
 
 .poubelle {
   position: absolute;
   top: 5px;
   right: 5px;
   background: #000;
-  padding : 3px 4px;
+  padding: 3px 4px;
   width: 9px;
   height: 11px;
   border-radius: 4px;
 }
-.ajout-photo {
+.bouton-modal {
   position: absolute;
   bottom: 40px;
   right: 50%;
@@ -495,5 +517,88 @@ figure {
   height: 36px;
   flex-shrink: 0;
   border-radius: 60px;
+  border: none;
+  background-color: #A7A7A7;
+}
+
+.vert {
   background: #1d6154;
+}
+
+.contenue > form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+}
+
+.contenue label {
+  color: #3d3d3d;
+  font-family: Work Sans;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.contenue div input,
+.contenue div select {
+  width: 420px;
+  height: 51px;
+  flex-shrink: 0;
+  border: none;
+  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+  font-family: Syne;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#filediv {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 170px;
+  background: #e8f1f6;
+  gap: 15px;
+  border-radius: 4px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+input[type="file"] + label {
+  color: #306685;
+  font-family: "Work Sans";
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  background: #cbd6dc;
+  border-radius: 50px;
+  background: #cbd6dc;
+  padding: 11px 33px;
+  flex-shrink: 0;
+}
+
+#filetype {
+  color: #444444;
+  font-family: "Work Sans";
+  font-size: 10px;
+  font-weight: 400;
+}
+
+#image_preview {
+  display: none;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50;
+  right: 50;
+  bottom: 0;
+  object-fit: cover;
+}
+
+.submit-modal {  
+  background-color: #1d6154;
 }

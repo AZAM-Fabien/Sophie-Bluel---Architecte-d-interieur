@@ -13,7 +13,7 @@
     <meta name="description" content="" />
     <link rel="stylesheet" href="./assets/style.css" />
     <script type="module" src="./assets/projet.js"></script>
-    <script type="module" src="./assets/modal.js" defer> </script>
+    <script type="module" src="./assets/modal.js" defer></script>
   </head>
   <body>
     <header>
@@ -29,22 +29,77 @@
     </header>
 
     <!-- modal -->
-    <aside id="menu-projets" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display:none;">
-      <div class ="modal-content modal-stop">
+    <aside
+      id="menu-projets"
+      class="modal"
+      aria-hidden="true"
+      role="dialog"
+      aria-labelledby="titlemodal"
+      style="display: none"
+    >
+      <div class="modal-content--1 modal-stop1">
         <bouton id="close-modal">X</bouton>
-        <h2 id="titlemodal">Galerie photo</h2> 
-        <div id="contenue">
-        </div>
+        <h2 id="titlemodal">Galerie photo</h2>
+        <div class="contenue" id="photo-modal"></div>
         <div id="bouton">
-        <bouton class="ajout-photo">Ajouter une photo</bouton>
+          <bouton class="bouton-modal vert" id="ajout-photo"
+            >Ajouter une photo</bouton
+          >
         </div>
+      </div>
+
+      <div class="modal-content--2 modal-stop2">
+        <bouton id="close-modal">X</bouton>
+        <bouton id="rollback">
+          <img src="./assets/icons/arrow-left.png" alt="fleche" />
+        </bouton>
+        <h2 id="titlemodal">Ajout photo</h2>
+        <form enctype="multipart/form-data" method="post" name="fileinfo" id="form">
+          <div class="contenue justify-center">
+            <div id="filediv">
+              <img id="image_preview" src="" alt="image a ajouter" />
+              <img src="./assets/icons/photo.png" alt="icone photo" />
+              <input
+                type="file"
+                id="files"
+                name="image"
+                accept="image/png, image/jpeg"
+                required
+              />
+              <label for="files"> + Ajouter photo </label>
+              <p id="filetype">jpg, png: 4mo max</p>
+            </div>
+
+            <div>
+              <label> Titre </label>
+              <input id="title" type="text" required />
+            </div>
+            <div>
+              <label> Catégorie </label>
+              <select name="catégorie" id="selectCategory" required>
+                <option value=""></option>
+              </select>
+            </div>
+
+            <div id="output"></div>
+          </div>
+          <input
+            class="bouton-modal"
+            id="submit"
+            type="submit"
+            value="Valider"
+          />
+        </form>
       </div>
     </aside>
 
     <main>
       <section id="introduction">
         <figure>
-          <img src="./assets/images/sophie-bluel.png" alt="" />
+          <img
+            src="./assets/images/sophie-bluel.png"
+            alt="photo sophie bluel"
+          />
         </figure>
         <article>
           <h2>Designer d'espace</h2>
