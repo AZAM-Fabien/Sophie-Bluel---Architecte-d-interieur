@@ -1,5 +1,6 @@
 const formulaireAvis = document.querySelector(".connexion");
 
+
 formulaireAvis.addEventListener("submit", async function (event) {
   event.preventDefault();
   // Création de l’objet du nouvel avis.

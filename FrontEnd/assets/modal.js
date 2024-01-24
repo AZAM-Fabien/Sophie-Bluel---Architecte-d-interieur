@@ -160,10 +160,47 @@ filesInput.addEventListener("input", checkValidityAndAddClass);
 titleInput.addEventListener("input", checkValidityAndAddClass);
 categoryInput.addEventListener("input", checkValidityAndAddClass);
 
-// document.getElementById("submit").addEventListener("click", (event) => {
-//   const elements = document.querySelectorAll("#filediv > :nth-child(1n+2)");
-//   elements.forEach((element) => {
-//     element.style.display = "flex";
-//   });
-//   event.preventDefault();
-// });
+const form = document.forms.namedItem("fileinfo");
+
+form.addEventListener("submit", async function (event) {
+  event.preventDefault();
+  const output = document.querySelector("#output");
+  const formData = new FormData();
+  const token = window.sessionStorage.getItem("token");
+  formData.append("image", filesInput.files[0].name);
+  formData.append("title", titleInput.value);
+  formData.append("category", categoryInput.value);
+
+  for (var pair of formData.entries()) {
+    console.log(pair[0] + ", " + pair[1]);
+  }
+
+  const reponse = await fetch("http://localhost:5678/api/works", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+    body: formData,
+  });
+
+  reponse.onload = (progress) => {
+    output.innerHTML =
+      reponse.status === 201
+        ? "Fichier téléversé !"
+        : `Erreur ${reponse.status} lors de la tentative de téléversement du fichier.<br />`;
+  };
+
+  if (reponse.ok) {
+    console.log("Fichier téléversé ! dans l'api");
+  }
+});
+
+
+// Conversion de l'image en base64 //
+function readImage(file, callback) {
+  const reader = new FileReader(); // Creation d'un objet FileReader //
+
+  reader.addEventListener("load", () => {
+    callback(reader.result);
+  });
+
+  reader.readAsDataURL(file); // Conversion de l'image en base64 //
+}
