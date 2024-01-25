@@ -8,7 +8,12 @@ const openModal = (e) => {
   modal.removeAttribute("aria-hidden");
   modal.setAttribute("aria-modal", "true");
   modal.addEventListener("mousedown", closeModal);
-  modal.querySelector("#close-modal").addEventListener("mousedown", closeModal);
+  modal
+    .querySelector("#close-modal-1")
+    .addEventListener("mousedown", closeModal);
+  modal
+    .querySelector("#close-modal-2")
+    .addEventListener("mousedown", closeModal);
   modal
     .querySelector(".modal-stop1")
     .addEventListener("mousedown", stopPropagation);
@@ -23,6 +28,18 @@ const closeModal = (e) => {
   modal_content1.style.display = "flex";
   modal_content2.style.display = "none";
   modal.style.display = "none";
+  output.innerHTML = ""; //Effacer le message d'erreur
+  output.style.display = "none"; //Cacher le message d'erreur
+  const elements = document.querySelectorAll(
+    "#filediv > :not(input[type='file'])"
+  );
+  elements.forEach((element) => {
+    element.style.display = "block";
+  });
+  document.querySelector("#image_preview").style.display = "none"; // Effacer l'image prévisualisée
+  document.querySelector("#files").value = null; // Effacer le fichier sélectionné
+  document.querySelector("#title").value = ""; // Effacer le titre
+  document.querySelector("#selectCategory").value = ""; // Effacer la catégorie sélectionnée
   modal.setAttribute("aria-hidden", "true");
   modal.removeAttribute("aria-modal");
   modal.removeEventListener("mousedown", closeModal);
@@ -64,7 +81,6 @@ styleimg();
 import { GenererProjet, recupererProjet } from "./projet.js";
 
 const poubelle = document.querySelectorAll(".poubelle");
-console.log(poubelle);
 
 document.querySelector("#photo-modal").addEventListener("click", async (e) => {
   if (e.target.classList.contains("poubelle")) {
@@ -112,6 +128,18 @@ const rollback = document.querySelector("#rollback");
 rollback.addEventListener("click", () => {
   modal_content1.style.display = "flex";
   modal_content2.style.display = "none";
+  output.innerHTML = ""; //Effacer le message d'erreur
+  output.style.display = "none"; //Cacher le message d'erreur
+  const elements = document.querySelectorAll(
+    "#filediv > :not(input[type='file'])"
+  );
+  elements.forEach((element) => {
+    element.style.display = "block";
+  });
+  document.querySelector("#image_preview").style.display = "none"; // Effacer l'image prévisualisée
+  document.querySelector("#files").value = null; // Effacer le fichier sélectionné
+  document.querySelector("#title").value = ""; // Effacer le titre
+  document.querySelector("#selectCategory").value = ""; // Effacer la catégorie sélectionnée
 });
 
 const selectCatégorie = document.querySelector("#selectCategory");
@@ -128,14 +156,14 @@ for (let i = 0; i < JSON.parse(categories).length; i++) {
 const photoModal = document.querySelector("#photo-modal");
 
 document.getElementById("files").onchange = function (event) {
-  const image = document.getElementById("image_preview");
-  image.src = window.URL.createObjectURL(event.target.files[0]);
-  image.style.display = "block";
-
-  const elements = document.querySelectorAll("#filediv > :nth-child(1n+2)");
+  const elements = document.querySelectorAll("#filediv > :nth-child(1n)");
   elements.forEach((element) => {
     element.style.display = "none";
   });
+
+  const image = document.getElementById("image_preview");
+  image.src = window.URL.createObjectURL(event.target.files[0]);
+  image.style.display = "block";
 };
 
 const filesInput = document.getElementById("files");
@@ -151,6 +179,8 @@ function checkValidityAndAddClass() {
     categoryInput.validity.valid
   ) {
     submitButton.classList.add("submit-modal");
+    output.innerHTML = ""; //Effacer le message d'erreur
+    output.style.display = "none"; //Cacher le message d'erreur
   } else {
     submitButton.classList.remove("submit-modal");
   }
@@ -161,16 +191,36 @@ titleInput.addEventListener("input", checkValidityAndAddClass);
 categoryInput.addEventListener("input", checkValidityAndAddClass);
 
 const form = document.forms.namedItem("fileinfo");
+const output = document.querySelector("#output-API");
 
 form.addEventListener("submit", async function (event) {
   event.preventDefault();
-  const output = document.querySelector("#output");
   const formData = new FormData();
   const token = window.sessionStorage.getItem("token");
-  formData.append("image", filesInput.files[0].name);
+
+  formData.append("image", filesInput.files[0]);
   formData.append("title", titleInput.value);
   formData.append("category", categoryInput.value);
 
+  if (!filesInput.files[0]) {
+    output.style.display = "block";
+    output.innerHTML = "Veuillez sélectionner un fichier.";
+    return;
+  }
+
+  if (!titleInput.value) {
+    output.style.display = "block";
+    output.innerHTML = "veuillez ajouter un titre.";
+    return;
+  }
+
+  if (!categoryInput.value) {
+    output.style.display = "block";
+    output.innerHTML = "veuillez ajouter une categorie.";
+    return;
+  }
+
+  // Affichage des informations du formulaire dans console
   for (var pair of formData.entries()) {
     console.log(pair[0] + ", " + pair[1]);
   }
@@ -181,26 +231,37 @@ form.addEventListener("submit", async function (event) {
     body: formData,
   });
 
-  reponse.onload = (progress) => {
+  reponse.onload = () => {
     output.innerHTML =
       reponse.status === 201
         ? "Fichier téléversé !"
         : `Erreur ${reponse.status} lors de la tentative de téléversement du fichier.<br />`;
   };
 
-  if (reponse.ok) {
+  if (reponse.status === 201) {
     console.log("Fichier téléversé ! dans l'api");
+
+    // vide les inputs/select et efface le message d'erreur
+    output.innerHTML = ""; //Effacer le message d'erreur
+    output.style.display = "none"; //Cacher le message d'erreur
+    const elements = document.querySelectorAll(
+      "#filediv > :not(input[type='file'])"
+    );
+    elements.forEach((element) => {
+      element.style.display = "block";
+    });
+    document.querySelector("#image_preview").style.display = "none"; // Effacer l'image prévisualisée
+    document.querySelector("#files").value = null; // Effacer le fichier sélectionné
+    document.querySelector("#title").value = ""; // Effacer le titre
+    document.querySelector("#selectCategory").value = ""; // Effacer la catégorie sélectionnée
+
+    // Récupération des projet depuis l'API
+    window.sessionStorage.removeItem("projet");
+    const projet = await recupererProjet();
+    document.querySelector(".galerie").innerHTML = "";
+    document.querySelector("#photo-modal").innerHTML = "";
+    GenererProjet(projet, ".galerie");
+    GenererProjet(projet, "#photo-modal");
+    styleimg();
   }
 });
-
-
-// Conversion de l'image en base64 //
-function readImage(file, callback) {
-  const reader = new FileReader(); // Creation d'un objet FileReader //
-
-  reader.addEventListener("load", () => {
-    callback(reader.result);
-  });
-
-  reader.readAsDataURL(file); // Conversion de l'image en base64 //
-}
