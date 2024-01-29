@@ -36,7 +36,8 @@ const closeModal = (e) => {
   elements.forEach((element) => {
     element.style.display = "block";
   });
-  document.querySelector("#image_preview").style.display = "none"; // Effacer l'image prévisualisée
+  const imagePreview = document.querySelector("#image_preview"); // Effacer l'image prévisualisée
+  imagePreview.remove();
   document.querySelector("#files").value = null; // Effacer le fichier sélectionné
   document.querySelector("#title").value = ""; // Effacer le titre
   document.querySelector("#selectCategory").value = ""; // Effacer la catégorie sélectionnée
@@ -79,8 +80,6 @@ function styleimg() {
 styleimg();
 
 import { GenererProjet, recupererProjet } from "./projet.js";
-
-const poubelle = document.querySelectorAll(".poubelle");
 
 document.querySelector("#photo-modal").addEventListener("click", async (e) => {
   if (e.target.classList.contains("poubelle")) {
@@ -136,7 +135,8 @@ rollback.addEventListener("click", () => {
   elements.forEach((element) => {
     element.style.display = "block";
   });
-  document.querySelector("#image_preview").style.display = "none"; // Effacer l'image prévisualisée
+  const imagePreview = document.querySelector("#image_preview"); // Effacer l'image prévisualisée
+  imagePreview.remove();
   document.querySelector("#files").value = null; // Effacer le fichier sélectionné
   document.querySelector("#title").value = ""; // Effacer le titre
   document.querySelector("#selectCategory").value = ""; // Effacer la catégorie sélectionnée
@@ -153,17 +153,20 @@ for (let i = 0; i < JSON.parse(categories).length; i++) {
   selectCatégorie.appendChild(option);
 }
 
-const photoModal = document.querySelector("#photo-modal");
-
 document.getElementById("files").onchange = function (event) {
   const elements = document.querySelectorAll("#filediv > :nth-child(1n)");
   elements.forEach((element) => {
     element.style.display = "none";
   });
 
-  const image = document.getElementById("image_preview");
+  const iconPhoto = document.getElementById("icon-photo");
+  const fileDiv = document.getElementById("filediv");
+
+  const image = document.createElement("img");
+  image.id = "image_preview";
   image.src = window.URL.createObjectURL(event.target.files[0]);
-  image.style.display = "block";
+  image.alt = event.target.files[0].name;
+  fileDiv.insertBefore(image, iconPhoto);
 };
 
 const filesInput = document.getElementById("files");
@@ -221,9 +224,6 @@ form.addEventListener("submit", async function (event) {
   }
 
   // Affichage des informations du formulaire dans console
-  for (var pair of formData.entries()) {
-    console.log(pair[0] + ", " + pair[1]);
-  }
 
   const reponse = await fetch("http://localhost:5678/api/works", {
     method: "POST",
@@ -239,8 +239,6 @@ form.addEventListener("submit", async function (event) {
   };
 
   if (reponse.status === 201) {
-    console.log("Fichier téléversé ! dans l'api");
-
     // vide les inputs/select et efface le message d'erreur
     output.innerHTML = ""; //Effacer le message d'erreur
     output.style.display = "none"; //Cacher le message d'erreur
@@ -250,7 +248,8 @@ form.addEventListener("submit", async function (event) {
     elements.forEach((element) => {
       element.style.display = "block";
     });
-    document.querySelector("#image_preview").style.display = "none"; // Effacer l'image prévisualisée
+    const imagePreview = document.querySelector("#image_preview"); // Effacer l'image prévisualisée
+    imagePreview.remove();
     document.querySelector("#files").value = null; // Effacer le fichier sélectionné
     document.querySelector("#title").value = ""; // Effacer le titre
     document.querySelector("#selectCategory").value = ""; // Effacer la catégorie sélectionnée

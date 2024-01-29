@@ -7,7 +7,6 @@ export async function recupererProjet() {
     // Récupération des projet depuis l'API
     const reponse = await fetch("http://localhost:5678/api/works");
     projet = await reponse.json();
-    console.log(projet);
     // Transformation des projet en JSON
     const projetjson = JSON.stringify(projet);
     // Stockage des informations dans le sessionStorage
@@ -20,7 +19,6 @@ export async function recupererProjet() {
 }
 
 const projet = await recupererProjet();
-console.log(projet);
 
 export function GenererProjet(projet, location) {
   for (let i = 0; i < projet.length; i++) {
@@ -104,24 +102,26 @@ filtre.addEventListener("click", (event) => {
     event.target.classList.add("active");
 
     const id = event.target.dataset.id;
+    const projet1 = projet.filter((projet) => projet.categoryId === 1);
+    const projet2 = projet.filter((projet) => projet.categoryId === 2);
+    const projet3 = projet.filter((projet) => projet.categoryId === 3);
+
     switch (id) {
+      // eslint-disable-next-line indent
       case "0":
         SectionGalery.innerHTML = "";
         GenererProjet(projet, ".galerie");
         break;
       case "1":
         SectionGalery.innerHTML = "";
-        const projet1 = projet.filter((projet) => projet.categoryId === 1);
         GenererProjet(projet1, ".galerie");
         break;
       case "2":
         SectionGalery.innerHTML = "";
-        const projet2 = projet.filter((projet) => projet.categoryId === 2);
         GenererProjet(projet2, ".galerie");
         break;
       case "3":
         SectionGalery.innerHTML = "";
-        const projet3 = projet.filter((projet) => projet.categoryId === 3);
         GenererProjet(projet3, ".galerie");
         break;
     }

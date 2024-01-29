@@ -13,7 +13,7 @@
     <meta name="description" content="" />
     <link rel="stylesheet" href="./assets/style.css" />
     <script type="module" src="./assets/projet.js"></script>
-    <script type="module" src="./assets/modal.js" defer></script>
+    <script type="module" src="./assets/modal.js"></script>
   </head>
   <body>
     <header>
@@ -23,7 +23,9 @@
           <li>projets</li>
           <li>contact</li>
           <li id="login">login</li>
-          <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
+          <li>
+            <img src="./assets/icons/instagram.png" alt="Instagram" />
+          </li>
         </ul>
       </nav>
     </header>
@@ -33,27 +35,26 @@
       id="menu-projets"
       class="modal"
       aria-hidden="true"
-      role="dialog"
-      aria-labelledby="titlemodal"
+      aria-labelledby="titlemodal-1"
       style="display: none"
     >
       <div class="modal-content--1 modal-stop1">
-        <bouton id="close-modal-1">X</bouton>
-        <h2 id="titlemodal">Galerie photo</h2>
+        <button class="no-decoration" id="close-modal-1">X</button>
+        <h2 id="titlemodal-1">Galerie photo</h2>
         <div class="contenue-1" id="photo-modal"></div>
         <div class="border-top">
-          <bouton class="bouton-modal vert" id="ajout-photo"
-            >Ajouter une photo</bouton
-          >
+          <button class="bouton-modal vert" id="ajout-photo">
+            Ajouter une photo
+          </button>
         </div>
       </div>
 
       <div class="modal-content--2 modal-stop2">
-        <bouton id="close-modal-2">X</bouton>
-        <bouton id="rollback">
+        <button class="no-decoration" id="close-modal-2">X</button>
+        <button class="no-decoration" id="rollback">
           <img src="./assets/icons/arrow-left.png" alt="fleche" />
-        </bouton>
-        <h2 id="titlemodal">Ajout photo</h2>
+        </button>
+        <h2 id="titlemodal-2">Ajout photo</h2>
         <form
           enctype="multipart/form-data"
           method="post"
@@ -63,8 +64,11 @@
         >
           <div class="contenue-2 justify-center">
             <div id="filediv">
-              <img id="image_preview" src="" alt="image a ajouter" />
-              <img src="./assets/icons/photo.png" alt="icone photo" />
+              <img
+                id="icon-photo"
+                src="./assets/icons/photo.png"
+                alt="icone photo"
+              />
               <input
                 type="file"
                 id="files"
@@ -77,26 +81,26 @@
             </div>
 
             <div class="form-group">
-              <label> Titre </label>
+              <label for="title"> Titre </label>
               <input id="title" type="text" required />
             </div>
             <div class="form-group">
-              <label> Catégorie </label>
+              <label for="selectCategory"> Catégorie </label>
               <select name="catégorie" id="selectCategory" required>
-                <option value=""></option>
+                <option value="" label=" " selected></option>
               </select>
             </div>
 
             <div id="output-API"></div>
           </div>
           <div class="border-top">
-          <input
-            class="bouton-modal"
-            id="submit"
-            type="submit"
-            value="Valider"
-          />
-        </div>
+            <input
+              class="bouton-modal"
+              id="submit"
+              type="submit"
+              value="Valider"
+            />
+          </div>
         </form>
       </div>
     </aside>

@@ -375,14 +375,14 @@ footer nav ul {
 
 #main__login label {
   color: #3d3d3d;
-  font-family: Work Sans;
+  font-family: "Work Sans";
   font-size: 14px;
   font-weight: 500;
 }
 
 #main__login p {
   color: #3d3d3d;
-  font-family: Work Sans;
+  font-family: "Work Sans";
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -454,13 +454,18 @@ footer nav ul {
   cursor: pointer;
 }
 
+.no-decoration {
+  text-decoration: none;
+  border: none;
+  background: none;
+}
 .modal-content--1 h2,
 .modal-content--2 h2 {
   margin-bottom: 20px;
   padding-top: 20px;
   color: #000;
   text-align: center;
-  font-family: Work Sans;
+  font-family: "Work Sans";
   font-size: 26px;
   font-weight: 400;
 }
@@ -475,8 +480,6 @@ footer nav ul {
   width: 420px;
   box-sizing: border-box;
 }
-
-
 
 .justify-center {
   justify-content: center;
@@ -507,7 +510,7 @@ figure {
 .border-top {
   display: flex;
   justify-content: center;
-  border-top: 1px solid #B3B3B3;
+  border-top: 1px solid #b3b3b3;
   padding-top: 32px;
   width: 420px;
   position: absolute;
@@ -529,7 +532,7 @@ figure {
   flex-shrink: 0;
   border-radius: 60px;
   border: none;
-  background-color: #A7A7A7;
+  background-color: #a7a7a7;
 }
 
 .vert {
@@ -544,7 +547,7 @@ figure {
   width: 420px;
 }
 
-.contenue-2{
+.contenue-2 {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -555,7 +558,7 @@ figure {
 
 .contenue-2 label {
   color: #3d3d3d;
-  font-family: Work Sans;
+  font-family: "Work Sans";
   font-size: 14px;
   font-weight: 500;
 }
@@ -616,13 +619,7 @@ input[type="file"] + label {
 }
 
 #image_preview {
-  display: none;
   height: 100%;
-  position: absolute;
-  top: 0;
-  left: 50;
-  right: 50;
-  bottom: 0;
   object-fit: cover;
 }
 
@@ -639,6 +636,6 @@ input[type="file"] + label {
   padding: 10px 0px;
 }
 
-.submit-modal {  
+.submit-modal {
   background-color: #1d6154;
 }
