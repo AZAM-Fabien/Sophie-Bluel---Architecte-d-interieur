@@ -27,8 +27,7 @@ formulaireAvis.addEventListener("submit", async function (event) {
     window.location.href = "../index.html";
   } else {
     const erreur = document.createElement("p");
-    erreur.innerText =
-      "Utilisateur introuvable: Email ou mot de passe incorrect";
+    erreur.innerText = "Email ou mot de passe incorrect";
     const envoie = document.querySelector("input[type=submit]");
     formulaireAvis.insertBefore(erreur, envoie);
   }
