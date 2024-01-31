@@ -37,7 +37,9 @@ const closeModal = (e) => {
     element.style.display = "block";
   });
   const imagePreview = document.querySelector("#image_preview"); // Effacer l'image prévisualisée
-  imagePreview.remove();
+  if (imagePreview) {
+    imagePreview.remove();
+  }
   document.querySelector("#files").value = null; // Effacer le fichier sélectionné
   document.querySelector("#title").value = ""; // Effacer le titre
   document.querySelector("#selectCategory").value = ""; // Effacer la catégorie sélectionnée
@@ -136,7 +138,9 @@ rollback.addEventListener("click", () => {
     element.style.display = "block";
   });
   const imagePreview = document.querySelector("#image_preview"); // Effacer l'image prévisualisée
-  imagePreview.remove();
+  if (imagePreview) {
+    imagePreview.remove();
+  }
   document.querySelector("#files").value = null; // Effacer le fichier sélectionné
   document.querySelector("#title").value = ""; // Effacer le titre
   document.querySelector("#selectCategory").value = ""; // Effacer la catégorie sélectionnée
@@ -249,7 +253,9 @@ form.addEventListener("submit", async function (event) {
       element.style.display = "block";
     });
     const imagePreview = document.querySelector("#image_preview"); // Effacer l'image prévisualisée
-    imagePreview.remove();
+    if (imagePreview) {
+      imagePreview.remove();
+    }
     document.querySelector("#files").value = null; // Effacer le fichier sélectionné
     document.querySelector("#title").value = ""; // Effacer le titre
     document.querySelector("#selectCategory").value = ""; // Effacer la catégorie sélectionnée
