@@ -3,14 +3,17 @@
 
 export async function recupererProjet() {
   let projet;
-  // Récupération des projet depuis l'API
-  const reponse = await fetch("http://localhost:5678/api/works");
-  projet = await reponse.json();
-  // Transformation des projet en JSON
-  const projetjson = JSON.stringify(projet);
-  console.log(projetjson);
-  // Stockage des informations dans le sessionStorage
-  window.sessionStorage.setItem("projet", projetjson);
+  try {
+    // Récupération des projet depuis l'API
+    const reponse = await fetch("http://localhost:5678/api/works");
+    projet = await reponse.json();
+    // Transformation des projet en JSON
+    const projetjson = JSON.stringify(projet);
+    // Stockage des informations dans le sessionStorage
+    window.sessionStorage.setItem("projet", projetjson);
+  } catch {
+    projet = JSON.parse(window.sessionStorage.getItem("projet"));
+  }
 
   return projet;
 }
@@ -58,14 +61,17 @@ filtre.appendChild(button);
 // Récuparation des categories depuis l'api ou stockées dans le sessionStorage
 export async function recupererCategories() {
   let categories;
-  //   Récupération des categories depuis l'API
-  const reponses = await fetch("http://localhost:5678/api/categories");
-  categories = await reponses.json();
-  // Transformation des categories en JSON
-  const categoriesjson = JSON.stringify(categories);
-  //   Stockage des informations dans le sessionStorage
-  window.sessionStorage.setItem("categories", categoriesjson);
-
+  try {
+    //   Récupération des categories depuis l'API
+    const reponses = await fetch("http://localhost:5678/api/categories");
+    categories = await reponses.json();
+    // Transformation des categories en JSON
+    const categoriesjson = JSON.stringify(categories);
+    //   Stockage des informations dans le sessionStorage
+    window.sessionStorage.setItem("categories", categoriesjson);
+  } catch {
+    categories = JSON.parse(window.sessionStorage.getItem("categories"));
+  }
   return categories;
 }
 
@@ -96,9 +102,6 @@ filtre.addEventListener("click", (event) => {
     event.target.classList.add("active");
 
     const id = event.target.dataset.id;
-    const projet1 = projet.filter((projet) => projet.categoryId === 1);
-    const projet2 = projet.filter((projet) => projet.categoryId === 2);
-    const projet3 = projet.filter((projet) => projet.categoryId === 3);
 
     switch (id) {
       // eslint-disable-next-line indent
@@ -107,16 +110,17 @@ filtre.addEventListener("click", (event) => {
         GenererProjet(projet, ".galerie");
         break;
       case "1":
+        console.log(typeof id);
         SectionGalery.innerHTML = "";
-        GenererProjet(projet1, ".galerie");
+        GenererProjet(projet.filter((projet) => projet.categoryId === Number(id)), ".galerie");
         break;
       case "2":
         SectionGalery.innerHTML = "";
-        GenererProjet(projet2, ".galerie");
+        GenererProjet(projet.filter((projet) => projet.categoryId === Number(id)), ".galerie");
         break;
       case "3":
         SectionGalery.innerHTML = "";
-        GenererProjet(projet3, ".galerie");
+        GenererProjet(projet.filter((projet) => projet.categoryId === Number(id)), ".galerie");
         break;
     }
   }
@@ -135,7 +139,7 @@ boutonContact.addEventListener("click", () => {
 });
 
 // bouton login
-const login = document.querySelector("#login");
+const login = document.getElementById("login");
 
 login.addEventListener("click", () => {
   window.location.href = "login/login.html";
@@ -160,6 +164,14 @@ if (token) {
     modifier.appendChild(modifier__icon);
     modifier.appendChild(modifier__text);
     portfolio.insertBefore(modifier, filtre);
+    const login = document.getElementById("login");
+    login.innerText = "Logout";
+    login.id = "logout";
+
+    login.addEventListener("click", () => {
+      window.sessionStorage.removeItem("token");
+      window.location.href = "index.html";
+    });
 
     // afficher bandeau noir pour dire que l'utilisateur est connecté
     const bandeau = document.createElement("div");
