@@ -3,17 +3,14 @@
 
 export async function recupererProjet() {
   let projet;
-  try {
-    // Récupération des projet depuis l'API
-    const reponse = await fetch("http://localhost:5678/api/works");
-    projet = await reponse.json();
-    // Transformation des projet en JSON
-    const projetjson = JSON.stringify(projet);
-    // Stockage des informations dans le sessionStorage
-    window.sessionStorage.setItem("projet", projetjson);
-  } catch {
-    projet = JSON.parse(window.sessionStorage.getItem("projet"));
-  }
+  // Récupération des projet depuis l'API
+  const reponse = await fetch("http://localhost:5678/api/works");
+  projet = await reponse.json();
+  // Transformation des projet en JSON
+  const projetjson = JSON.stringify(projet);
+  console.log(projetjson);
+  // Stockage des informations dans le sessionStorage
+  window.sessionStorage.setItem("projet", projetjson);
 
   return projet;
 }
@@ -61,17 +58,14 @@ filtre.appendChild(button);
 // Récuparation des categories depuis l'api ou stockées dans le sessionStorage
 export async function recupererCategories() {
   let categories;
-  try {
-    //   Récupération des categories depuis l'API
-    const reponses = await fetch("http://localhost:5678/api/categories");
-    categories = await reponses.json();
-    // Transformation des categories en JSON
-    const categoriesjson = JSON.stringify(categories);
-    //   Stockage des informations dans le sessionStorage
-    window.sessionStorage.setItem("categories", categoriesjson);
-  } catch {
-    categories = JSON.parse(window.sessionStorage.getItem("categories"));
-  }
+  //   Récupération des categories depuis l'API
+  const reponses = await fetch("http://localhost:5678/api/categories");
+  categories = await reponses.json();
+  // Transformation des categories en JSON
+  const categoriesjson = JSON.stringify(categories);
+  //   Stockage des informations dans le sessionStorage
+  window.sessionStorage.setItem("categories", categoriesjson);
+
   return categories;
 }
 

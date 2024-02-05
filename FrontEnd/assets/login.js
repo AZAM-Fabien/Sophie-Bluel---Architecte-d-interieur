@@ -20,6 +20,11 @@ formulaireAvis.addEventListener("submit", async function (event) {
     credentials: "omit",
   });
 
+  const erreur = document.querySelector("p");
+  if (erreur) {
+    erreur.remove();
+  }
+
   // Vérification de la réponse de l'API
   if (reponse.ok) {
     const data = await reponse.json();
